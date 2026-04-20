@@ -1,0 +1,59 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Visual Studio Code related
+.vscode/
+.vscode-test/
+.factorypath
+
+# Flutter/Dart related
+**/Frontend/.dart_tool/
+**/Frontend/.flutter-plugins
+**/Frontend/.flutter-plugins-dependencies
+**/Frontend/.packages
+**/Frontend/build/
+**/Frontend/lube.iml
+
+# Flutter Android related
+**/Frontend/android/local.properties
+**/Frontend/android/key.properties
+**/Frontend/android/app/src/main/res/values/google-services.json
+**/Frontend/android/.gradle/
+
+# Flutter iOS related
+**/Frontend/ios/Flutter/Generated.xcconfig
+**/Frontend/ios/Flutter/flutter_export_environment.sh
+**/Frontend/ios/Flutter/Flutter.podspec
+**/Frontend/ios/Pods/
+
+# Flutter macOS related
+**/Frontend/macos/Flutter/ephemeral/
+**/Frontend/macos/Flutter/Generated.xcconfig
+**/Frontend/macos/Flutter/flutter_export_environment.sh
+
+# Flutter Linux related
+**/Frontend/linux/flutter/ephemeral/
+
+# Flutter Windows related
+**/Frontend/windows/flutter/ephemeral/
+
+# Node.js related
+**/Backend/node_modules/
+**/Backend/npm-debug.log*
+**/Backend/yarn-debug.log*
+**/Backend/yarn-error.log*
+**/Backend/.env

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lube - Backend Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Basic Auth Check
+        if (!localStorage.getItem('lube_user')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🚗</span>
+                <h1>LUBE <span>Admin</span></h1>
+            </div>
+            <nav>
+                <a href="#" class="active" onclick="showSection('overview')">
+                    <i data-lucide="layout-dashboard"></i> Genel Bakış
+                </a>
+                <a href="#" onclick="showSection('vehicles')">
+                    <i data-lucide="car"></i> Araçlar
+                </a>
+                <a href="#" onclick="showSection('maintenance')">
+                    <i data-lucide="tool"></i> Bakım Kayıtları
+                </a>
+                <a href="#" onclick="showSection('api-test')">
+                    <i data-lucide="terminal"></i> API Test
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>v1.0.0-alpha</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Araç veya bakım ara...">
+                </div>
+                <div class="user-profile">
+                    <div class="notification-badge">
+                        <i data-lucide="bell"></i>
+                        <span class="dot"></span>
+                    </div>
+                    <div class="avatar">AD</div>
+                </div>
+            </header>
+
+            <!-- Overview Section -->
+            <section id="overview" class="content-section active">
+                <div class="section-header">
+                    <h2>Sistem Özeti</h2>
+                    <p>Uygulamanın genel veritabanı durumu.</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon users"><i data-lucide="users"></i></div>
+                        <div class="stat-info">
+                            <h3>Toplam Kullanıcı</h3>
+                            <p id="stat-users">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon vehicles"><i data-lucide="car"></i></div>
+                        <div class="stat-info">
+                            <h3>Kayıtlı Araç</h3>
+                            <p id="stat-vehicles">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon maintenance"><i data-lucide="wrench"></i></div>
+                        <div class="stat-info">
+                            <h3>Tamamlanan Bakım</h3>
+                            <p id="stat-maintenance">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-grid">
+                    <div class="card recent-vehicles">
+                        <div class="card-header">
+                            <h3>Son Eklenen Araçlar</h3>
+                            <button class="btn-text">Tümünü Gör</button>
+                        </div>
+                        <table id="recent-vehicles-table">
+                            <thead>
+                                <tr>
+                                    <th>Marka/Model</th>
+                                    <th>Plaka</th>
+                                    <th>KM</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vehicles Section -->
+            <section id="vehicles" class="content-section">
+                <div class="section-header">
+                    <h2>Araç Listesi</h2>
+                    <button class="btn-primary" onclick="openModal('add-vehicle-modal')">Yeni Araç Ekle</button>
+                </div>
+                <div class="card">
+                    <table id="all-vehicles-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Marka</th>
+                                <th>Model</th>
+                                <th>Yıl</th>
+                                <th>Plaka</th>
+                                <th>Güncel KM</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Maintenance Section -->
+            <section id="maintenance" class="content-section">
+                <div class="section-header">
+                    <h2>Bakım Durumları</h2>
+                </div>
+                <div class="card">
+                    <div class="filter-bar">
+                        <select id="vehicle-filter" onchange="loadMaintenanceStatus()">
+                            <option value="">Araç Seçin...</option>
+                        </select>
+                    </div>
+                    <div id="maintenance-status-grid" class="maintenance-grid">
+                        <!-- Data will be populated here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

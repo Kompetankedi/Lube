@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lube - Giriş Yap</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <span class="logo-icon">🚗</span>
+                <h1>LUBE <span>Backend Admin</span></h1>
+                <p>Devam etmek için giriş yapın</p>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>E-posta</label>
+                    <input type="email" id="email" placeholder="admin@lube.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary w-full">Giriş Yap</button>
+            </form>
+            <div id="login-error" class="error-message"></div>
+        </div>
+    </div>
+    <script>
+        // Check if already logged in
+        if (localStorage.getItem('lube_user')) {
+            window.location.href = 'dashboard.html';
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('lube_user', JSON.stringify(data.user));
+                    window.location.href = 'dashboard.html';
+                } else {
+                    errorDiv.textContent = data.message || 'Giriş başarısız.';
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Sunucuya bağlanılamadı.';
+            }
+        });
+    </script>
+</body>
+</html>
