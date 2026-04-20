@@ -1,54 +1,65 @@
 # 🚗 Lube - Akıllı Araba Bakım Takip Sistemi
 
-Lube, araç sahiplerinin periyodik bakımlarını, mekanik kontrollerini ve yasal yükümlülüklerini (muayene, sigorta vb.) tek bir noktadan yönetmelerini sağlayan, akıllı uyarı mekanizmalarına sahip bir takip sistemidir.
+[![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)](https://flutter.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg?style=for-the-badge)](https://opensource.org/licenses/ISC)
+
+Lube, araç sahiplerinin periyodik bakımlarını, mekanik kontrollerini ve yasal yükümlülüklerini (muayene, sigorta vb.) tek bir noktadan yönetmelerini sağlayan, **Local-First** mimarisine sahip, modern ve kullanıcı dostu bir takip sistemidir.
 
 ---
 
-## 🌟 Öne Çıkan Özellikler
+## ✨ Öne Çıkan Özellikler
 
 ### 📱 Mobil Uygulama (Frontend - Flutter)
-- **Kapsamlı Araç Profili:** Marka, model, yıl, plaka, şase numarası, motor ve şanzıman tipi detaylarıyla araç yönetimi.
-- **Akıllı Kilometre Takibi:** Aylık ortalama kullanım hesaplama ve gelecek bakım tarihlerini tahminleme.
-- **Geniş Bakım Yelpazesi:** 
-  - Sıvılar (Motor yağı, antifriz, fren hidroliği vb.)
-  - Filtreler (Hava, polen, mazot vb.)
-  - Mekanik/Ağır Bakımlar (Triger seti, baskı balata, fren diskleri vb.)
-  - Yürüyen Aksam (Rot-balans, lastik rotasyonu vb.)
-- **Yasal Takip Modülü:** Trafik sigortası, Kasko, Muayene (Vize), Egzoz emisyon ve MTV ödeme dönemleri için hatırlatıcılar.
-- **Dashboard:** Bakımların kritiklik seviyesine göre (renk kodlu) görselleştirilmesi.
-- **Uzman İpuçları:** Bakım esnasında dikkat edilmesi gereken teknik detaylar (Örn: "Triger değişirken devirdaim pompası da kontrol edilmelidir").
+- **Neon Dark Tasarım:** Göz yormayan, premium hissettiren modern gece modu arayüzü.
+- **Offline-First (SQLite):** İnternet olmasa dahi tüm verilerinizi yönetebilir, dilediğinizde sunucuya yedekleyebilirsiniz.
+- **Akıllı Bakım Algoritması:** Mevcut kilometrenize göre hangi bakımın ne kadar ömrü kaldığını (Kritik/Normal/Güvenli) anlık hesaplar.
+- **Gelişmiş Form Validasyonları:** Hatalı veri girişini (negatif KM, geçersiz e-posta vb.) engelleyen akıllı form kontrol sistemi.
+- **Yedekleme ve Geri Yükleme:** Veritabanınızı tek tıkla dışa aktarabilir veya başka cihazdan geri yükleyebilirsiniz.
 
 ### ⚙️ Sunucu ve API (Backend - Node.js)
-- **Güvenli Kimlik Doğrulama:** JWT tabanlı kullanıcı kayıt ve giriş sistemi.
-- **Gelişmiş Veri Yapısı:** MariaDB üzerinde optimize edilmiş kullanıcı, araç ve bakım logları tabloları.
-- **Akıllı İş Mantığı:** Mevcut KM ve son servis verilerini karşılaştırarak "Kalan KM" hesaplayan algoritmalar.
-- **RESTful Endpoints:**
-  - `POST /api/auth/register` & `login`
-  - `GET/POST/PUT/DELETE /api/vehicles`
-  - `GET /api/maintenance/definitions`
-  - `GET/POST /api/maintenance/logs`
+- **Güvenli Kimlik Doğrulama:** JWT (JSON Web Token) tabanlı oturum yönetimi.
+- **Performans Odaklı Sorgular:** Optimize edilmiş SQL JOIN yapıları ile minimum gecikme süresi.
+- **Validasyon Katmanı:** `express-validator` ile sunucu tarafında tam veri güvenliği.
 
 ---
 
 ## 🛠️ Teknoloji Yığını
 
-- **Frontend:** Flutter & Dart
-- **Backend:** Node.js, Express.js
-- **Veritabanı:** MariaDB / MySQL
-- **Araçlar:** `express-validator`, `dotenv`, `cors`, `mysql2`, `nodemon`
+| Alan | Teknoloji | Kullanım Amacı |
+| :--- | :--- | :--- |
+| **Frontend** | Flutter & Dart | Çapraz platform mobil uygulama |
+| **Backend** | Node.js & Express | RESTful API Hizmeti |
+| **Yerel Veritabanı** | SQLite (sqflite) | Cihaz üzerinde hızlı veri saklama |
+| **Sunucu Veritabanı** | MySQL / MariaDB | Bulut tabanlı yedekleme ve senkronizasyon |
+| **Tema** | Custom Neon Dark | Premium kullanıcı deneyimi |
 
 ---
 
 ## 🚀 Kurulum ve Çalıştırma
 
-### 1. Veritabanı Hazırlığı
-- `Backend/database/schema.sql` dosyasını MariaDB sunucunuzda çalıştırarak gerekli tabloları (`users`, `vehicles`, `maintenance_definitions`, `maintenance_logs`) oluşturun.
+### 1. Ön Gereksinimler
+- Flutter SDK (>= 3.0.0)
+- Node.js (>= 16.0.0)
+- MySQL veya MariaDB Sunucusu
 
 ### 2. Backend Kurulumu
 ```bash
 cd Backend
 npm install
-# .env dosyasını oluşturun (DB_HOST, DB_USER, DB_PASS, DB_NAME, PORT)
+```
+`.env` dosyasını oluşturun ve aşağıdaki bilgileri doldurun:
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=şifreniz
+DB_NAME=lube_db
+PORT=3000
+JWT_SECRET=özel_anahtarınız
+```
+Ardından sunucuyu başlatın:
+```bash
 npm run dev
 ```
 
@@ -56,8 +67,18 @@ npm run dev
 ```bash
 cd Frontend
 flutter pub get
+# Geliştirme modunda başlatmak için:
 flutter run
 ```
+
+---
+
+## 📊 Veri Doğrulama ve Güvenlik
+
+Uygulama genelinde uygulanan kritik validasyonlar:
+- **KM Kontrolü:** Araç kilometresi asla geriye doğru güncellenemez.
+- **Bakım Uyarıları:** Kritik seviyeye (0 KM altı) düşen bakımlar Dashboard üzerinde kırmızı renkle vurgulanır.
+- **Form Koruması:** Geçersiz model yılları (örn: 2050) veya hatalı e-posta formatları kaydedilmeden önce kullanıcıyı uyarır.
 
 ---
 
@@ -67,24 +88,31 @@ flutter run
 Lube/
 ├── Backend/                # API ve Sunucu Tarafı
 │   ├── src/
-│   │   ├── config/         # Veritabanı havuzu ve ayarlar
-│   │   ├── controllers/    # İstek işleme ve logic
-│   │   ├── models/         # DB sorguları
-│   │   └── routes/         # API uç noktaları
-│   └── database/           # SQL şemaları
-├── Frontend/               # Mobil Uygulama Tarafı
-│   ├── lib/                # Ekranlar ve modeller
-│   └── android/ios/etc.    # Platform spesifik dosyalar
+│   │   ├── config/         # Veritabanı bağlantı havuzu
+│   │   ├── controllers/    # Business logic (İş mantığı)
+│   │   ├── models/         # SQL sorgu şablonları
+│   │   └── routes/         # API Endpoint tanımları
+│   └── database/           # Veritabanı şema ve seed dosyaları
+├── Frontend/               # Mobil Uygulama (Flutter)
+│   ├── lib/
+│   │   ├── screens/        # UI Sayfaları (Dashboard, Login, vb.)
+│   │   ├── services/       # API ve Local DB servisleri
+│   │   └── widgets/        # Tekrar kullanılabilir UI bileşenleri
+│   └── assets/             # Görseller ve fontlar
 └── README.md
 ```
 
 ---
 
-## 📅 Gelecek Planları (Roadmap)
-- [ ] Yakıt gider analizi ve grafikler.
-
+## 📅 Yol Haritası (Roadmap)
+- [x] SQLite Entegrasyonu ve Offline Mod.
+- [x] Neon Dark Tema Uygulaması.
+- [x] Veritabanı Yedekleme/Geri Yükleme.
+- [ ] 📈 Yakıt Gider Analizi ve Grafiklendirme.
+- [ ] 🔔 Push Bildirimleri (Bakım zamanı hatırlatıcısı).
+- [ ] 🛠️ Tamirhane/Servis Rehberi Entegrasyonu.
 
 ---
 
 ## 📄 Lisans
-Bu proje [ISC](LICENSE) lisansı altında geliştirilmektedir.
+Bu proje [ISC](LICENSE) lisansı altında geliştirilmektedir. Tüm hakları saklıdır.

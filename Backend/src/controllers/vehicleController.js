@@ -2,7 +2,6 @@ const Vehicle = require('../models/vehicleModel');
 
 exports.getVehicles = async (req, res) => {
     try {
-        // For now, using a hardcoded user_id until auth is implemented
         const userId = req.query.user_id || 1; 
         const vehicles = await Vehicle.getAllByUserId(userId);
         res.json(vehicles);
@@ -27,6 +26,20 @@ exports.updateKm = async (req, res) => {
         const success = await Vehicle.updateKm(id, current_km);
         if (success) {
             res.json({ message: 'KM updated successfully' });
+        } else {
+            res.status(404).json({ message: 'Vehicle not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.updateVehicle = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const success = await Vehicle.update(id, req.body);
+        if (success) {
+            res.json({ message: 'Vehicle updated successfully' });
         } else {
             res.status(404).json({ message: 'Vehicle not found' });
         }

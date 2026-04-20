@@ -16,8 +16,14 @@ CREATE TABLE IF NOT EXISTS vehicles (
     model VARCHAR(100) NOT NULL,
     year INT,
     plate VARCHAR(20),
+    chassis_number VARCHAR(50),
+    transmission_type ENUM('Manuel', 'Otomatik', 'Yarı Otomatik', 'DSG', 'CVT', 'Diğer'),
     current_km INT DEFAULT 0,
     fuel_type ENUM('Benzin', 'Dizel', 'LPG', 'Elektrik', 'Hibrit'),
+    insurance_date DATE,
+    casco_date DATE,
+    inspection_date DATE,
+    exhaust_emission_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -45,7 +51,18 @@ CREATE TABLE IF NOT EXISTS maintenance_logs (
 
 -- Insert default maintenance definitions
 INSERT INTO maintenance_definitions (name, km_interval, month_interval, warning_note) VALUES
-('Motor Yağı Değişimi', 10000, 12, 'Yağ filtresi ile birlikte değiştirilmesi önerilir. Pesimist Hoca: Ucuz yağ kullanma, motoru eline alırsın!'),
-('Triger Kayışı Kontrolü', 60000, 48, 'Kopması durumunda motora büyük zarar verir. Pesimist Hoca: Zamanı geçtiyse yolda kalman an meselesi.'),
-('Fren Balatası Kontrolü', 20000, 12, 'Güvenliğiniz için her bakımda kontrol ettirin.'),
-('Hava Filtresi Değişimi', 10000, 12, 'Performans ve yakıt ekonomisi için kritiktir.');
+('Motor Yağı ve Yağ Filtresi', 10000, 12, 'Motor ömrü için kritiktir.  Ucuz yağ kullanma, motoru eline alırsın!'),
+('Hava Filtresi', 10000, 12, 'Performans ve yakıt ekonomisi için her bakımda değişmeli.'),
+('Polen Filtresi', 10000, 12, 'Klima performansı ve kabin hava kalitesi için önemli.'),
+('Mazot / Yakıt Filtresi', 20000, 24, 'Özellikle dizel araçlarda enjektör sağlığı için çok kritik.'),
+('Antifriz / Soğutma Suyu', 40000, 24, 'Motorun donmasını ve hararet yapmasını engeller.'),
+('Fren Hidroliği', 40000, 24, 'Fren performansı için hidroliğin nem oranı önemlidir.'),
+('Şanzıman Yağı', 60000, 48, 'Otomatik şanzımanlarda ömürlüktür yalanına inanmayın, değişmesi gerekir.'),
+('Triger Kayışı / Seti', 60000, 48, 'Kopması motora büyük zarar verir.  Triger değişirken devirdaim de mutlaka değişmeli!'),
+('V Kayışı ve Gergisi', 60000, 48, 'Koparsa şarj dinamosu ve klima çalışmaz.'),
+('Eksantrik Zinciri', 100000, 120, 'Ses yapmaya başladığında veya periyodu geldiğinde değişmeli.'),
+('Fren Balataları ve Diskleri', 20000, 12, 'Güvenliğiniz için her periyodik bakımda kontrol edilmeli.'),
+('Debriyaj Seti (Baskı Balata)', 80000, 60, 'Kavrama zayıfladığında veya sertleştiğinde kontrol edilmeli.'),
+('Rot Ayarı / Balans Ayarı', 10000, 12, 'Lastik ömrü ve sürüş güvenliği için yılda bir yapılmalı.'),
+('Lastik Rotasyonu', 10000, 12, 'Lastiklerin eşit aşınması için ön-arka değişimi.'),
+('Amortisör Kontrolü', 50000, 24, 'Yol tutuşu ve fren mesafesi için önemlidir.');
