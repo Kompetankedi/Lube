@@ -85,13 +85,13 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
             ],
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
-              side: BorderSide(color: Colors.redAccent.withOpacity(0.5)),
+              side: BorderSide(color: Colors.redAccent.withValues(alpha: 0.5)),
             ),
           ),
         );
       }
     } catch (e) {
-      print('Error checking alerts: $e');
+      debugPrint('Error checking alerts: $e');
     }
   }
 
@@ -133,7 +133,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: Text(_isEditing ? 'ARACI DÜZENLE' : 'YENİ ARAÇ EKLE'),
         actions: [
@@ -251,27 +251,26 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                             await ApiService.createVehicle(data);
                           }
                           
-                          if (mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(_isEditing ? 'Araç güncellendi!' : 'Araç başarıyla eklendi!'),
-                                backgroundColor: Colors.green,
-                              ),
-                            );
-                            
-                            if (_isEditing) {
-                              await _checkMaintenanceAlerts(vehicleId!);
-                            }
-                            
-                            if (mounted) Navigator.pop(context);
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(_isEditing ? 'Araç güncellendi!' : 'Araç başarıyla eklendi!'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                          
+                          if (_isEditing) {
+                            await _checkMaintenanceAlerts(vehicleId!);
                           }
+                          
+                          if (!context.mounted) return;
+                          Navigator.pop(context);
                         } catch (e) {
                           setState(() => _isSaving = false);
-                          if (mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
-                            );
-                          }
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+                          );
                         }
                       }
                     },
@@ -374,7 +373,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
     required IconData icon,
   }) {
     return DropdownButtonFormField<String>(
-      value: value,
+      initialValue: value,
       style: const TextStyle(color: Colors.white, fontSize: 14),
       dropdownColor: const Color(0xFF151921),
       decoration: InputDecoration(

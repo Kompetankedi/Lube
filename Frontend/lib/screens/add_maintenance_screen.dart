@@ -50,7 +50,9 @@ class _AddMaintenanceScreenState extends State<AddMaintenanceScreen> {
       if (widget.log!['service_date'] != null) {
         try {
           _selectedDate = DateTime.parse(widget.log!['service_date']);
-        } catch (e) {}
+        } catch (e) {
+          debugPrint('Error parsing date: $e');
+        }
       }
     } else {
       _serviceKm = widget.currentKm.toString();
@@ -205,7 +207,7 @@ class _AddMaintenanceScreenState extends State<AddMaintenanceScreen> {
     }
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
         title: Text(_isEditing ? 'BAKIMI DÜZENLE' : 'YENİ BAKIM KAYDI'),
         actions: [
@@ -228,13 +230,13 @@ class _AddMaintenanceScreenState extends State<AddMaintenanceScreen> {
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: theme.colorScheme.primary.withOpacity(0.1)),
+                    border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.1)),
                   ),
                   child: SwitchListTile(
                     title: const Text('ÖZEL BAKIM TÜRÜ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, letterSpacing: 1)),
                     subtitle: const Text('Listede olmayan bir kalem ekleyin', style: TextStyle(fontSize: 11, color: Colors.grey)),
                     value: _isCustomDefinition,
-                    activeColor: theme.colorScheme.primary,
+                    activeThumbColor: theme.colorScheme.primary,
                     onChanged: (val) => setState(() => _isCustomDefinition = val),
                   ),
                 ),
@@ -249,7 +251,7 @@ class _AddMaintenanceScreenState extends State<AddMaintenanceScreen> {
                     labelText: 'BAKIM TÜRÜ SEÇİN',
                     prefixIcon: Icon(Icons.list_alt),
                   ),
-                  value: _selectedDefinitionId,
+                  initialValue: _selectedDefinitionId,
                   items: _definitions.map<DropdownMenuItem<int>>((def) {
                     return DropdownMenuItem<int>(
                       value: def['id'],

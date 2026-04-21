@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/login_screen.dart';
-import 'services/api_service.dart';
 
 void main() {
   runApp(const LubeApp());
@@ -28,7 +27,6 @@ class LubeApp extends StatelessWidget {
           primary: neonBlue,
           secondary: const Color(0xFF00FFD4),
           surface: darkSurface,
-          background: darkBg,
           onPrimary: Colors.black,
         ),
         scaffoldBackgroundColor: darkBg,
@@ -46,24 +44,24 @@ class LubeApp extends StatelessWidget {
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: BorderSide(color: neonBlue.withOpacity(0.1), width: 1),
+            side: BorderSide(color: neonBlue.withAlpha((0.1 * 255).toInt()), width: 1),
           ),
         ),
 
         // Custom Input Theme
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: Colors.black.withOpacity(0.3),
+          fillColor: Colors.black.withAlpha((0.3 * 255).toInt()),
           labelStyle: const TextStyle(color: Colors.grey, fontSize: 13),
           floatingLabelStyle: const TextStyle(color: neonBlue),
-          prefixIconColor: neonBlue.withOpacity(0.7),
+          prefixIconColor: neonBlue.withAlpha((0.7 * 255).toInt()),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+            borderSide: BorderSide(color: Colors.white.withAlpha((0.1 * 255).toInt())),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.white.withOpacity(0.05)),
+            borderSide: BorderSide(color: Colors.white.withAlpha((0.05 * 255).toInt())),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
@@ -80,7 +78,7 @@ class LubeApp extends StatelessWidget {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             textStyle: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1),
             elevation: 4,
-            shadowColor: neonBlue.withOpacity(0.5),
+            shadowColor: neonBlue.withAlpha((0.5 * 255).toInt()),
           ),
         ),
 

@@ -18,7 +18,6 @@ class VehicleDetailScreen extends StatefulWidget {
 
 class _VehicleDetailScreenState extends State<VehicleDetailScreen> {
   List<dynamic> _maintenanceStatus = [];
-  List<dynamic> _allLogs = [];
   bool _isLoading = true;
   String? _errorMessage;
   late Map<String, dynamic> _currentVehicle;
@@ -60,7 +59,6 @@ class _VehicleDetailScreenState extends State<VehicleDetailScreen> {
       if (mounted) {
         setState(() {
           _maintenanceStatus = status;
-          _allLogs = logs;
           _groupedLogs = grouped;
           _isLoading = false;
         });
@@ -114,12 +112,12 @@ class _VehicleDetailScreenState extends State<VehicleDetailScreen> {
     final theme = Theme.of(context);
     
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
         title: Column(
           children: [
             Text(
-              (_currentVehicle['brand'] + ' ' + _currentVehicle['model']).toUpperCase(), 
+              '${_currentVehicle['brand']} ${_currentVehicle['model']}'.toUpperCase(), 
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 2)
             ),
             Text(
@@ -136,6 +134,7 @@ class _VehicleDetailScreenState extends State<VehicleDetailScreen> {
                 context,
                 MaterialPageRoute(builder: (context) => AddVehicleScreen(vehicle: _currentVehicle)),
               );
+              if (!context.mounted) return;
               Navigator.pop(context, true);
             },
           ),
@@ -216,7 +215,7 @@ class _VehicleDetailScreenState extends State<VehicleDetailScreen> {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: urgencyColor.withOpacity(0.2), width: 1),
+              border: Border.all(color: urgencyColor.withAlpha((0.2 * 255).toInt()), width: 1),
             ),
             child: ExpansionTile(
               leading: Icon(_getUrgencyIcon(urgency), color: urgencyColor, size: 28),
@@ -270,9 +269,9 @@ class _VehicleDetailScreenState extends State<VehicleDetailScreen> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.2),
+        color: Colors.black.withAlpha((0.2 * 255).toInt()),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withAlpha((0.05 * 255).toInt())),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

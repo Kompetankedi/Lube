@@ -66,9 +66,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final shareFile = File(p.join(tempDir.path, 'lube_backup_${DateTime.now().millisecondsSinceEpoch}.sqlite'));
       await file.copy(shareFile.path);
 
-      await Share.shareXFiles(
-        [XFile(shareFile.path)],
-        subject: 'Lube Uygulaması Veritabanı Yedeği',
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [XFile(shareFile.path)],
+          subject: 'Lube Uygulaması Veritabanı Yedeği',
+        ),
       );
     } catch (e) {
       if (mounted) {
@@ -211,7 +213,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
         title: const Text('AYARLAR'),
       ),
@@ -225,7 +227,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               decoration: BoxDecoration(
                 color: theme.colorScheme.surface,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: theme.colorScheme.primary.withOpacity(0.1)),
+                border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.1)),
               ),
               child: Column(
                 children: [
@@ -233,7 +235,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: const Text('YEREL MOD (SQLITE)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
                     subtitle: const Text('Sunucu olmadan telefonu kullanın', style: TextStyle(fontSize: 11, color: Colors.grey)),
                     value: _isLocalMode,
-                    activeColor: theme.colorScheme.primary,
+                    activeThumbColor: theme.colorScheme.primary,
                     onChanged: (val) => setState(() => _isLocalMode = val),
                   ),
                   if (_isLocalMode) ...[
@@ -312,7 +314,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onPressed: () async {
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.remove('user_id');
-                  if (mounted) Navigator.of(context).popUntil((route) => route.isFirst);
+                  if (!context.mounted) return;
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 style: OutlinedButton.styleFrom(foregroundColor: Colors.redAccent, side: const BorderSide(color: Colors.redAccent)),
                 child: const Text('OTURUMU KAPAT'),
@@ -330,7 +333,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.05),
+          color: Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(

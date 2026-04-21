@@ -49,15 +49,15 @@ class _LoginScreenState extends State<LoginScreen> {
     final theme = Theme.of(context);
     
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       body: Container(
         decoration: BoxDecoration(
           gradient: RadialGradient(
             center: const Alignment(0.7, -0.6),
             radius: 1.2,
             colors: [
-              theme.colorScheme.primary.withOpacity(0.15),
-              theme.colorScheme.background,
+              theme.colorScheme.primary.withAlpha((0.15 * 255).toInt()),
+              theme.colorScheme.surface,
             ],
             stops: const [0.0, 1.0],
           ),
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       border: Border.all(color: theme.colorScheme.primary, width: 2),
                       boxShadow: [
                         BoxShadow(
-                          color: theme.colorScheme.primary.withOpacity(0.3),
+                          color: theme.colorScheme.primary.withAlpha((0.3 * 255).toInt()),
                           blurRadius: 20,
                           spreadRadius: 2,
                         ),
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: theme.colorScheme.primary,
                       shadows: [
                         Shadow(
-                          color: theme.colorScheme.primary.withOpacity(0.5),
+                          color: theme.colorScheme.primary.withAlpha((0.5 * 255).toInt()),
                           blurRadius: 10,
                         ),
                       ],

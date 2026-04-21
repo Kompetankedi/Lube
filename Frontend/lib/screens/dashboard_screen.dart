@@ -65,7 +65,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final theme = Theme.of(context);
     
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
         title: Text(
           'LUBE APP',
@@ -162,7 +162,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             Icon(
               Icons.error_outline,
-              color: Colors.redAccent.withOpacity(0.5),
+              color: Colors.redAccent.withAlpha((0.5 * 255).toInt()),
               size: 60,
             ),
             const SizedBox(height: 16),
@@ -267,7 +267,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: statusColor.withOpacity(0.3), width: 1),
+        border: Border.all(color: statusColor.withAlpha((0.3 * 255).toInt()), width: 1),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
@@ -366,9 +366,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         vertical: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: statusColor.withOpacity(0.1),
+                        color: statusColor.withAlpha((0.1 * 255).toInt()),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: statusColor.withOpacity(0.5)),
+                        border: Border.all(color: statusColor.withAlpha((0.5 * 255).toInt())),
                       ),
                       child: Row(
                         children: [
@@ -428,7 +428,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Expanded(
             child: Text(
               item['name']?.toUpperCase() ?? '',
-              style: TextStyle(color: color.withOpacity(0.8), fontSize: 11, fontWeight: FontWeight.bold),
+              style: TextStyle(color: color.withAlpha((0.8 * 255).toInt()), fontSize: 11, fontWeight: FontWeight.bold),
             ),
           ),
           Text(
