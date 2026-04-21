@@ -7,6 +7,10 @@ import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import '../services/local_db_service.dart';
+import '../services/api_service.dart';
+import 'login_screen.dart';
+import 'dashboard_screen.dart';
+
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -41,11 +45,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await prefs.setString('backend_url', _urlController.text);
     await prefs.setBool('is_local_mode', _isLocalMode);
     
+    final userId = prefs.getInt('user_id');
+
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Ayarlar kaydedildi!'), backgroundColor: Colors.green),
       );
-      Navigator.pop(context, true);
+
+      // Mod kontrolü ve yönlendirme
+      if (_isLocalMode) {
+        // Yerel modda giriş gerekmez, doğrudan Dashboard'a git
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const DashboardScreen()),
+          (route) => false,
+        );
+      } else if (userId == null) {
+        // Sunucu modunda oturum yoksa Login ekranına git
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+          (route) => false,
+        );
+      } else {
+        // Sunucu modunda oturum varsa sadece geri dön (Dashboard yenilenir)
+        Navigator.pop(context, true);
+      }
     }
   }
 
@@ -312,12 +335,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
             if (!_isLocalMode)
               OutlinedButton(
                 onPressed: () async {
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.remove('user_id');
-                  if (!context.mounted) return;
-                  Navigator.of(context).popUntil((route) => route.isFirst);
+                  await ApiService.logout();
+                  if (!mounted) return;
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    (route) => false,
+                  );
                 },
-                style: OutlinedButton.styleFrom(foregroundColor: Colors.redAccent, side: const BorderSide(color: Colors.redAccent)),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.redAccent, 
+                  side: const BorderSide(color: Colors.redAccent)
+                ),
                 child: const Text('OTURUMU KAPAT'),
               ),
           ],
